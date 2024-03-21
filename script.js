@@ -1,4 +1,4 @@
-// Define Audio objects for each bass tone
+// Tones
 let bassSounds = {
   "A1": new Audio("bassTones/A (1).wav"),
   "A2": new Audio("bassTones/A (2).wav"),
@@ -19,6 +19,30 @@ let bassSounds = {
   "G2": new Audio("bassTones/G (2).wav"),
   "G3": new Audio("bassTones/G (3).wav")
 };
+
+// Slider
+
+const allRanges = document.querySelectorAll(".range-wrap");
+allRanges.forEach(wrap => {
+  const range = wrap.querySelector(".range");
+  const bubble = wrap.querySelector(".bubble");
+
+  range.addEventListener("input", () => {
+    setBubble(range, bubble);
+  });
+  setBubble(range, bubble);
+});
+
+function setBubble(range, bubble) {
+  const val = range.value;
+  const min = range.min ? range.min : 0;
+  const max = range.max ? range.max : 100;
+  const newVal = Number(((val - min) * 100) / (max - min));
+  bubble.innerHTML = val;
+
+}
+// Generator
+
 
 function playBassSound(note, number) {
   let soundKey = note + number;
@@ -41,7 +65,7 @@ function displayText() {
 
   document.getElementById("current-reason").textContent = note + " " + number;
 
-  // Play the corresponding bass sound
+  // Play the sound
   playBassSound(note, number);
 }
 
@@ -51,9 +75,25 @@ document.body.addEventListener('click', function () {
 
 document.addEventListener('keydown', function (event) {
   if (event.keyCode === 32) {
-      // Call your JavaScript function here
+      // Calling function
       displayText();
   }
 });
 
-setInterval(displayText, 5000); // Updates every 5 seconds
+// Update interval based on slider value
+function updateInterval() {
+  var speed = document.getElementById("rangeNumber").value;
+  var speedCal = speed * 1000;
+
+  // Clear previous interval if it exists
+  clearInterval(rangeNumber);
+
+  // Set new interval
+  rangeNumber = setInterval(displayText, speedCal);
+}
+
+// Add event listener to slider input
+document.getElementById("rangeNumber").addEventListener("input", updateInterval);
+
+// Initial call to set the interval
+updateInterval();

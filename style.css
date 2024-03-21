@@ -28,3 +28,14 @@ p {
     margin-bottom: 20px;
     font-size: 3vw;
 }
+
+.range-wrap{
+    width: 100%;
+    align-items: center;
+}
+
+.flex-length{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
